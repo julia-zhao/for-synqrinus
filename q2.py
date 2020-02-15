@@ -11,7 +11,7 @@ class Node:
             self.children[-1].insert(parent, data) 
 
     def level(self, data, level):
-        if (self.data == data): #base case
+        if (self.data == data): 
             return level
 
         #find the two children nodes that data falls between
@@ -25,7 +25,7 @@ class Node:
                 return level + 1
             else:
                 i+=1
-
+                
         next_level = self.children[i].level(data, level+1)
         return next_level
 
@@ -42,6 +42,14 @@ class Node:
 
             self.children[0].print_out(level, num_chars + 1, root)
             self.children.pop(0) #remove this child once you have traversed through it 
+
+    def right_check(self, data): #Check that all levels only have one children left
+        if (len(self.children) > 1):
+            return False
+        elif (self.children):
+            self.children[0].right_check(data)
+        else:
+            return True
     
     def make_string(self, s, data):
         if (len(self.children) > 1):
@@ -54,7 +62,6 @@ class Node:
             if (node.data==data):
                 return s
 
-        #Also return if the current node is the data node 
         if (self.data == data):
             return s
 
@@ -66,13 +73,31 @@ class Node:
                 if (node.data > data): 
                     i-=1 
                     break
-                # elif (node.data == data): #found the data within the children of current node
-                #     return s
                 else:
                     i+=1
 
         s = self.children[i].make_string(s, data)
         return s
+#end of class
+
+def main():
+    root = 0
+
+    #loop until end of file
+    with open('test.txt') as test_file:
+        for line in test_file:
+            data = line.strip('][ \n') #get only the data
+            data = tuple([i for i in data.replace("\"", "").split(" ")])      
+
+            if (data[1] == 'nil'):
+                root = Node(data[0])
+            else:
+                root.insert(data[1], data[0])
+
+    root.print_out(0, 0, root)
+
+if __name__== "__main__":
+    main()
 
 #Case 1
 # root = Node('A')
@@ -114,4 +139,4 @@ class Node:
 # level = root.level('E', 0)
 # print ("level is: " + str(level))
 
-root.print_out(0, 0, root)
+#root.print_out(0, 0, root)

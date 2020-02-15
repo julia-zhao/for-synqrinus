@@ -17,53 +17,7 @@ Thus, we now have to check every possible solution to determine the minimum numb
 132 - 4 coins used. 2x53 cents, 1x25 cents, 1x1 cent.
 
 EXERCISE #2:
-I have decided to implement a DFS tree with more than 2 possible children per node. 
+I have decided to implement a DFS tree with more than 2 possible children per node. Since the question assumes that all inputs are given in order, I can simply insert the children into a  list and not worry about sorting. When outputting, I added one │ (U+2502) for every child node in the list (if there were more than one). Otherwise, I added a space. Finally, I added one └ (U+2514) if the node was a child of another node. 
 
-----------------------
-brainstorm for algorithm (?), refactoring later maybe. didn't work the first time around because there's too many conditions to consider.
-
-   if (COIN_SET[j] == 1){
-                        coins_used[0]++;
-                    }
-                    else if (COIN_SET[j] == 5){ // 5 cents = 5x1 cent
-                        if (i%5==0){
-                            coins_used[0]-=5;
-                            coins_used[1]++;
-                        }
-                    }
-                    else if (COIN_SET[j] == 10){ // 10 cents = 2x5 cents
-                        if (i%5==0 || i%10==0){
-                            if (coins_used[1] >= 2 ){
-                                coins_used[1] -=2;
-                                coins_used[2]++;
-                            }
-                        }
-                    }
-                    else if (COIN_SET[j] == 25){ // 25 cents = 2x10 cents + 1x5 cents
-                        if (i%25==0){
-                            coins_used[1]--;
-                            coins_used[2]-=2;
-                            coins_used[3]++;
-                        }
-                    }
-                    else if (COIN_SET[j] == 53){ // 53 cents = 2x25 cents + 3x1 cents
-                        if (i%53==0){
-                            coins_used[0]-=3;
-                            coins_used[3]-=2;
-                            coins_used[4]++;
-                        }
-                    }
-                    else if (COIN_SET[j] == 100){ // 100 cents = 1x53 cents + 1x25 cents + 2x10 cents + 1x1 cent
-                            coins_used[0]--;
-                            coins_used[2]-=2;
-                            coins_used[3]--;
-                            coins_used[4]--;
-                            coins_used[5]++;
-                        }
-                    }
-                    else{ // 200 cents = 2x100 cents
-                        if (i%200==0){
-                            coins_used[5]-=2;
-                            coins_used[6]++;
-                        }
-                    }
+EXERCISE #2, BONUS:
+This was done in the same method as question 2, but I checked to see if the node was the rightmost node as well. If it was not, I outputted a ├ (U+251C) in place of the └ (U+2514).

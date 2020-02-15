@@ -34,7 +34,7 @@ class Node:
         level = self.level(self.data,level+1)
         while self.children: #children is not empty 
             if (level > 1):
-                s = root.make_string("",self.data)
+                s = root.make_string("",self.data) #check for │ (U+2502)
                 print (s, end = '')
             if (level > 0):
                 rightmost = root.right_check(self.children[0].data)
@@ -47,7 +47,7 @@ class Node:
             self.children.pop(0) #remove this child once you have traversed through it 
     
     def make_string(self, s, data):
-        if (len(self.children) > 1):
+        if (len(self.children) > 1): 
             s += u'\u2502'
         else:
             s += ' '
@@ -69,8 +69,6 @@ class Node:
                 if (node.data > data): 
                     i-=1 
                     break
-                # elif (node.data == data): #found the data within the children of current node
-                #     return s
                 else:
                     i+=1
 
@@ -78,26 +76,46 @@ class Node:
         return s
 
     #provide self as root
+    #check if node that contains "data" is rightmost node
     def right_check(self, data):
-        if (not self.children):
+        i=0
+        if (len(self.children) == 1):
             return True
-        else:
-            i=0
-            if (len(self.children) == 1):
-                return True
 
-            for node in self.children:
-                if (node.data == data):
-                    if (i == len(self.children) -1):
-                        return True
-                    else:
-                        return False
-                elif (node.data > data):
-                    i-=1
-                    break
-                else:    
-                    i+=1    
-            return self.children[i].right_check(data)
+        for node in self.children:
+            if (node.data == data):
+                if (i == len(self.children) -1): #the rightmost (last) child node
+                    return True
+                else:
+                    return False
+            elif (node.data > data): #check the children of current node
+                i-=1
+                break
+            else:    
+                i+=1    
+        return self.children[i].right_check(data)
+
+#end of Node class
+
+def main():
+    root = 0
+
+    #loop until end of file
+    with open('test.txt') as test_file:
+        for line in test_file:
+            data = line.strip('][ \n') #get only the data
+            data = tuple([i for i in data.replace("\"", "").split(" ")])      
+
+            if (data[1] == 'nil'):
+                root = Node(data[0])
+            else:
+                root.insert(data[1], data[0])
+
+    root.print_out(0, 0, root)
+
+if __name__== "__main__":
+    main()
+
 #Case 1
 # root = Node('A')
 # root.insert('A', 'B')
@@ -105,11 +123,11 @@ class Node:
 # root.insert('C', 'D')
 
 #Case 2
-root = Node('A')
-root.insert('A', 'B')
-root.insert('B', 'C')
-root.insert('B', 'D')
-root.insert('A', 'E')
+# root = Node('A')
+# root.insert('A', 'B')
+# root.insert('B', 'C')
+# root.insert('B', 'D')
+# root.insert('A', 'E')
 
 #Case 3
 # root = Node('A')
@@ -135,7 +153,4 @@ root.insert('A', 'E')
 # root.insert('H', 'K')
 # root.insert('K', 'L')
 
-# level = root.level('E', 0)
-# print ("level is: " + str(level))
-
-root.print_out(0, 0, root)
+# root.print_out(0, 0, root)

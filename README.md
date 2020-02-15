@@ -16,6 +16,9 @@ Thus, we now have to check every possible solution to determine the minimum numb
 63 - 2 coins used. 1x53 cents, 1x10 cents.
 132 - 4 coins used. 2x53 cents, 1x25 cents, 1x1 cent.
 
+EXERCISE #2:
+I have decided to implement a DFS tree with more than 2 possible children per node. 
+
 ----------------------
 brainstorm for algorithm (?), refactoring later maybe. didn't work the first time around because there's too many conditions to consider.
 
